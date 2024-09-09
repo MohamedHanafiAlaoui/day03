@@ -1,27 +1,42 @@
-# day03
 # include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-typedef  struct Contacts
+
+typedef  struct lives
 {
-    char Nom [100];
-    char Numéro [100];
+    char titre [100];
+    char auteur [100];
     char Adresse [100];
-}Contact_t;
+    float prix;
+    int quantite;
+}live_n;
 
+void yo_swap(int *p1 ,int *p2)
+{
+    int a;
+    a = *p1;
+    *p1 = *p2;
+    *p2 = a;
+}
+void fyo_swap(float *p1 ,float *p2)
+{
+    float a;
+    a = *p1;
+    *p1 = *p2;
+    *p2 = a;
+}
 
-void    ajouter( Contact_t contact[100], int count);
-void    afficher(Contact_t Contact[100], int count);
-void    Rechercher (Contact_t Contact[100],char stre[],int count);
-void    update(Contact_t Contact[100], char stre[],int count);
-void    Supprimer (Contact_t Contact[100], char stre[],int count);
+void    ajouter(live_n live[100] , int *count);
+void    afficher(live_n live[100], int *count);
+void    Rechercher (live_n live[100],int *count);
+void    update(live_n live[100],int *count);
+void    Supprimer (live_n live[100], int *count);
 void    afich();
 
 int main ()
 {
-    Contact_t contact[100];
-    char stre[100];
+    live_n live[100] ;
     int count = 0;
+    int *p_count=&count;
     int choix;
 
   while(1){
@@ -30,32 +45,30 @@ int main ()
         scanf("%d", &choix);
         switch (choix) {
             case 1:
-               ajouter( contact, count);
-                count++;
+               ajouter(live , p_count);
+                printf("Count: %d\n", count);
+
                 break;
             case 2:
-                afficher(contact, count);
+                //printf("Count: %d\n", count);
+               afficher(live , p_count);
                 break;
             case 3:
-                printf("Enter the Nom : ");
-                scanf("%s", stre);
-                update(contact,stre,count);
+
+                update( live , p_count);
                 break;
             case 4:
-                printf("Enter the Nom  to Supprimer: ");
-                scanf("%s", stre);
-                Supprimer(contact,stre,count);
-                count--;
+                Supprimer(live,  p_count);
                 break;
             case 5:
-                char stre[100];
-                printf("Enter the Nom Rechercher : ");
-                scanf("%s", stre);
-                Rechercher(contact,stre,count);
+              //  Total(quantite, c);
                 break;
-            case  0:
-                printf("sorti");
-                exit(0);
+            case 6:
+                char stre[100];
+                printf("Enter the titre: ");
+                scanf("%s", stre);
+               // Rechercher(titre ,auteur, prix, quantite, stre, c);
+                break;
             default:
                 printf("Default!");
         }
@@ -64,112 +77,226 @@ int main ()
 
 void afich()
 {
-    printf("/==============================ENTER NUMERO====================================/\n");
-    printf("             1 => ajouter       \t");
-    printf("             2 => afficher \t\n");
-    printf("             3 => update        \t");
-    printf("             4 => Supprimer \t\n");
-    printf("             5 => Rechercher    \t");
-    printf("             0 => ext \t\n");
-    printf("/============================================================================/\n");
+    printf("===========================\n");
+    printf("1=>ajouter\n");
+    printf("2=>afficher\n");
+    printf("3=>update\n");
+    printf("4=>Supprimer\n");
+    printf("5=>Total\n");
+    printf("6=>Rechercher\n");
+    printf("===========================\n");
 }
 
 
-void  ajouter(Contact_t Contact[100],  int count) 
-{
-    printf ("Nom  : ");
-    scanf ("%s", &Contact[count].Nom);
-    printf ("Numero  : ");
-    scanf ("%s", &Contact[count].Numéro);
-    printf ("Adresse  : ");
-    scanf ("%s", &Contact[count].Adresse);
+void  ajouter(live_n live[100], int *count) 
+{   
+    int y;
+    int n;
 
-
-}
-
-void  afficher(Contact_t Contact[100], int count) 
-{
-    printf("/==============================Afficher Tous les Contact====================================/\n");
-    for (int i = 0; i < count; i++)
+    printf("ajoute 1 elment entre 0 et plus all namber 1 : ");
+    scanf("%d", &y);
+    
+    switch (y)
     {
-        printf ("\n|-------------------------------------|\n");
-        printf ("Nom      : %s\n",Contact[i].Nom);
-        printf ("Numero   : %s\n",Contact[i].Numéro);
-        printf ("Adresse  : %s\n",Contact[i].Adresse);
+    case 0:
+        printf ("titre : ");
+        scanf ("%s", &live[*count].titre);
+        printf ("auteur : ");
+        scanf ("%s", &live[*count].auteur);
+        printf ("prix : ");
+        scanf ("%f", &live[*count].prix);
+        printf ("quantite : ");
+        scanf ("%d", &live[*count].quantite);
+        *count+=1;
+        break;
+    case 1:
+        int s;
+        printf("enter namber element de ajete ");
+        scanf("%d", &n);
+        s = *count + n;
+        for ( *count; *count < s; *count+=1)
+        {
+            printf ("titre  : ");
+            scanf ("%s", &live[*count].titre);
+            printf ("auteur : ");
+            scanf ("%s", &live[*count].auteur);
+            printf ("prix : ");
+            scanf ("%f", &live[*count].prix);
+            printf ("quantite : ");
+            scanf ("%d", &live[*count].quantite);  
+        }
 
+        
+        break;
+    
+    default:
+        break;
     }
 }
 
-void Rechercher (Contact_t Contact[100],char stre[],int count)
+void  afficher(live_n live[100], int *count) 
 {
-    printf("/==============================Rechercher Contact====================================/\n");
-      int r = 0;
-      /*char str[100];*/
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < *count; i++)
     {
-       /* str[100] = Contact[i].Nom;*/
-        printf("STRCMP: %d\n", strcmp(Contact[i].Nom,stre));
-        if (strcmp(Contact[i].Nom,stre) == 0)
+            printf("\n------------------------------\n");
+            printf ("titre  :  %s",live[i].titre);
+            printf ("auteur : %s",live[i].auteur);
+            printf ("prix : %.2f dh", live[i].prix);
+            printf ("quantite : %d",live[i].quantite);
+    }
+}
+
+void Rechercher (live_n live[100],int *count)
+{
+    int r;
+    int n = 0;
+    int i, j;
+    int y;
+
+    afficher(live , count);
+
+    char stre[100];
+    printf("Enter the titre: ");
+    scanf("%s", stre);
+    for (int i = 0; i < *count; i++)
+    {
+        if (strcmp(live[i].titre ,stre) == 0)
         {
-            printf ("\n|-------------------------------------|\n");
-            printf ("Nom      : %s\n",Contact[i].Nom);
-            printf ("Numero   : %s\n",Contact[i].Numéro);
-            printf ("Adresse  : %s\n",Contact[i].Adresse);
-            r++;    
+            // printf ("titre  : %s",titre[i] );
+             r = i;
+             n = 1;
+             break;
         }
     }
-    if (r == 0)
+    if (n == 1)
     {
-        printf("no contact\n");
-    }
-
-}
-
-void update(Contact_t Contact[100],char stre[],int count)
-{
-    printf("/==============================update  Contact====================================/\n");
-    int r = 0;
-    char stri[100];
-    for (int i = 0; i < count; i++)
+            printf("\n------------------------------\n");
+            printf ("titre  :  %s",live[r].titre);
+            printf ("auteur : %s",live[r].auteur);
+            printf ("prix : %.2f dh", live[r].prix);
+            printf ("quantite : %d",live[r].quantite);
+    }else
     {
-        if (strcmp(Contact[i].Nom ,stre) == 0)
-        {
-            printf ("Nom  : ");
-             scanf ("%s", &Contact[count].Nom);
-            printf ("Numero  : ");
-            scanf ("%s", &Contact[count].Numéro);
-            printf ("Adresse  : ");
-            scanf ("%s", &Contact[count].Adresse);
-            r++;    
-        }
-    }
-    if (r == 0)
-    {
-        printf("no contact\n");
+        printf("dlklfd,fld,fl");
     }
     
- 
 }
 
+void update(live_n live[100],int *count)
+{
+    afficher(live , count);
 
-void Supprimer (Contact_t Contact[100], char stre[],int count)
-{  
-        int i, j,sprm;
-    sprm = 0;
-    for (i = 0; i < count; i++) {
-        if (strcmp(Contact[j].Nom, stre) == 0) {
-            for (j = i; j < count - 1; j++) {
-                printf("\nyes to suprime\n");
-                strcpy(Contact[j].Nom, Contact[j + 1].Nom);
-                strcpy(Contact[j].Numéro,Contact[j].Numéro);
-                strcpy(Contact[j].Adresse,Contact[j + 1].Adresse);
-                sprm++;
-            }
+    char stre[100];
+    printf("Enter the titre: ");
+    scanf("%s", stre);
+
+    int r;
+    int n = 0;
+    int chois;
+    for (int i = 0; i < *count; i++)
+    {
+        if (strcmp(live[i].titre ,stre) == 0)
+        {
+            // printf ("titre  : %s",titre[i] );
+             r = i;
+             n = 1;
+             break;
+        }
+    }
+    if (n == 1)
+    {
+        printf("============enter lechoi de mofifer ============\n 1 => titre \n 2 => quantite \n 3 => prix \n 4 => tous les champ \n");
+        scanf("%d",&chois);
+        switch (chois)
+        {
+        case 1:
+            printf ("titre : ");
+            scanf ("%s", &live[r].titre);
+            break;
+        case 2:
+            printf ("quantite : ");
+            scanf ("%d", &live[r].quantite);
+            break;
+        case 3:
+            printf ("prix : ");
+            scanf ("%f", &live[r].prix);
+            break;
+        case 4:
+            printf ("titre : ");
+            scanf ("%s", &live[r].titre);
+            printf ("auteur : ");
+            scanf ("%s", &live[r].auteur);
+            printf ("prix : ");
+            scanf ("%f", &live[r].prix);
+            printf ("quantite : ");
+            scanf ("%d", &live[r].quantite);
+            break;
+        default:
+            break;
+        }
+
+    }else
+    {
+        printf("donc ne est pas recherche %s",stre);
+    }
+    
+    
+}
+
+// void Total(int quantite[10],int *count)
+// {
+//     int s;
+
+//     s = 0;
+//     for (int i = 0; i < count; i++)
+//     {
+//           s +=quantite[i];
+//     }
+//     printf ("le Nombre Total de Livre est : %d\n",s);
+// }
+
+void Supprimer (live_n live[100],int *count)
+{
+    int r;
+    int n = 0;
+    int i, j;
+    int y;
+
+    afficher(live , count);
+
+    char stre[100];
+    printf("Enter the titre: ");
+    scanf("%s", stre);
+
+    for (i = 0; i < *count; i++) 
+    {
+        if (strcmp(live[i].titre ,stre) == 0)
+        {
+            r = i;
+            n = 1;
             break;
         }
     }
-    if (sprm == 0)
+    if (n == 1)
     {
-        printf("\nno de suprm\n");
+        printf("onter 1 on suprimer ");
+        scanf("%d",&y);
+        if (y == 1)
+        {
+            for (j = i; j < *count - 1; j++)
+            {
+                printf("\nyes to suprime\n");
+                strcpy(live[j].titre, live[j + 1].titre);
+                strcpy(live[j].auteur,live[j+1].auteur);
+                fyo_swap(&live[j].prix,&live[j + 1].prix);
+                yo_swap(&live[j].quantite,&live[j + 1].quantite);
+            }
+        }
     }
+    else
+    {
+        printf("non de suprime ");
+    }
+    
 }
+    
